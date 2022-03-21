@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 //dhfvuısdhvıudfvhıdfuvhdu
 //asasdadasdasd
-//asdasdqwdqasd 3. değişişklik
 int selectedAptId = 0;
 
 void main() {
