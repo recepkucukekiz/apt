@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 /*import 'package:fluttertoast/fluttertoast.dart';*/
 import 'package:apt/pages/daireEkle.dart';
-
+//asdfdsa
 class DairelerPage extends StatelessWidget {
   const DairelerPage({Key? key}) : super(key: key);
 
