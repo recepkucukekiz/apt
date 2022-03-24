@@ -16,13 +16,13 @@ class DaireEkle extends StatelessWidget {
           children: [
             Container(
                 child: Text(
-              'Ev Sahibi Bilgileri',
-              maxLines: 20,
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            )),
+                  'Ev Sahibi Bilgileri',
+                  maxLines: 20,
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                )),
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -43,13 +43,13 @@ class DaireEkle extends StatelessWidget {
             ),
             Container(
                 child: Text(
-              'Ev Sahibi Daire Bilgileri',
-              maxLines: 20,
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            )),
+                  'Ev Sahibi Daire Bilgileri',
+                  maxLines: 20,
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                )),
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),

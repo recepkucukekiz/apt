@@ -1,3 +1,5 @@
+import 'package:apt/pages/forgotPassword.dart';
+import 'package:apt/pages/register.dart';
 import 'package:flutter/material.dart';
 import 'package:apt/pages/homepage.dart';
 
@@ -74,7 +76,12 @@ class _LoginDemoState extends State<LoginDemo> {
               children: [
                 TextButton(
                   onPressed: () {
-                    //TODO FORGOT PASSWORD SCREEN GOES HERE
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const ForgotPassword()),
+                    );
                   },
                   child: const Text(
                     'Forgot Password',
@@ -84,7 +91,12 @@ class _LoginDemoState extends State<LoginDemo> {
                 const Text("|",style: TextStyle(color: Colors.blue),),
                 TextButton(
                   onPressed: () {
-                    //TODO FORGOT PASSWORD SCREEN GOES HERE
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const Register()),
+                    );
                   },
                   child: const Text(
                     'Create Account',
