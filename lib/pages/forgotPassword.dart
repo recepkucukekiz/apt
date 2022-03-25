@@ -17,7 +17,7 @@ class ForgotPassword extends StatelessWidget{
 
 class MyCustomForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-
+  TextEditingController emailController = TextEditingController();
    MyCustomForm({Key? key}) : super(key: key);
 
   @override
@@ -33,6 +33,7 @@ class MyCustomForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextFormField(
+                  controller: emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter your email',
@@ -56,7 +57,7 @@ class MyCustomForm extends StatelessWidget {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('E-posta adresinize mail iletildi')),
+                           SnackBar(content: Text('E-posta adresinize mail iletildi'+emailController.text)),
                         );
                       }
                     },
@@ -66,11 +67,6 @@ class MyCustomForm extends StatelessWidget {
               ],
             ),
           ),
-          Column(
-            children: [
-              
-            ],
-          )
         ],
       ),
     );

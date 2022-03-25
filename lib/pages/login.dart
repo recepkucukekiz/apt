@@ -24,8 +24,8 @@ class _LoginDemoState extends State<LoginDemo> {
               padding: const EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 40),
               child: Center(
                 child: SizedBox(
-                    child: Image.network(
-                        "https://media.istockphoto.com/photos/exterior-view-of-modern-apartment-building-offering-luxury-rental-in-picture-id1322575582?b=1&k=20&m=1322575582&s=170667a&w=0&h=bGCtLpgCEorQuVdW2lbWguNZHcOGPePSwDibgbgyh0U=")),
+                    child: Image.asset("assets/images/apt.jpg")
+                ),
               ),
             ), // fotograf(padding eklenmis)
             const Padding(
@@ -95,7 +95,7 @@ class _LoginDemoState extends State<LoginDemo> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                          const Register()),
+                           Register()),
                     );
                   },
                   child: const Text(
