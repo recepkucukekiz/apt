@@ -14,6 +14,7 @@ class DaireEkle extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
+            SizedBox(height: 10,),
             Container(
                 child: Text(
                   'Ev Sahibi Bilgileri',
@@ -23,6 +24,7 @@ class DaireEkle extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 )),
+            SizedBox(height: 10,),
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -50,6 +52,7 @@ class DaireEkle extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 )),
+            SizedBox(height: 10,),
             TextField(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -68,9 +71,22 @@ class DaireEkle extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Ekle'),
+             MaterialButton(
+              minWidth: 150,
+              height: 60,
+              onPressed: () {
+              },
+              color: Colors.blue,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)),
+              child: Text(
+                "Submit",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),

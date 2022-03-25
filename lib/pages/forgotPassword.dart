@@ -32,6 +32,26 @@ class MyCustomForm extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(
+                "Forgot Password",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Enter your email for changing password",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey[700],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -50,7 +70,9 @@ class MyCustomForm extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
+                  child: MaterialButton(
+                    minWidth: 200,
+                    height: 60,
                     onPressed: () {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
@@ -61,7 +83,17 @@ class MyCustomForm extends StatelessWidget {
                         );
                       }
                     },
-                    child: const Text('Submit'),
+                    color: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Text(
+                      "Send",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 22,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ],

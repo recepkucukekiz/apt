@@ -18,30 +18,22 @@ class DairelerPage extends StatelessWidget {
               children:  [
                 Row(
                   children: [
-                    const CircleAvatar(
+                     CircleAvatar(
+                      child: Image.asset('assets/images/users.png'),
                       radius: 40,
-                      backgroundImage: NetworkImage(
-                          "https://static-cdn.jtvnw.net/jtv_user_pictures/b3ade3fe-75a6-4c75-aee2-5bc836e9e84e-profile_image-300x300.png"),
                     ),
-                    const SizedBox(width: 10,),
+
+                    
+                    const SizedBox(width: 15,),
                     Row(
                       children:  const [
-                        Text("Kuzey Tekinoğlu",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
+                        Text("Taha Turan",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
                       ],
                     ),
                   ],
                 ),
               ],
             ),
-            /*Column(
-              children: [
-                Row(
-                  children: const [
-                    Text("Kuzey Tekinoğlu",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
-                  ],
-                ),
-              ],
-            ),*/
             Column(
               children: [
                 Text("Daire " + selectedAptId.toString(),style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold))
@@ -124,13 +116,13 @@ class DairelerPage extends StatelessWidget {
 
   deleteButton(BuildContext context){
     Widget cancelButton = TextButton(
-      child: const Text("Cancel"),
+      child: const Text("İptal"),
       onPressed: () {
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("Continue"),
+      child: const Text("Devam et"),
       onPressed: () {
         Navigator.pop(context);
         Navigator.pop(context);
@@ -153,9 +145,9 @@ class DairelerPage extends StatelessWidget {
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text("AlertDialog"),
+      title: const Text("Daire Sil"),
       content: const Text(
-          "Would you like to continue learning how to use Flutter alerts?"),
+          "Daireyi silmek istediğinize emin misiniz?"),
       actions: [
         cancelButton,
         continueButton,

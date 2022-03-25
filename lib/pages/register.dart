@@ -1,15 +1,60 @@
-//a
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 
 import 'login.dart';
 
-class Register extends StatelessWidget{
-   Register({Key? key}) : super(key: key);
+mixin InputValidationMixin {
+  bool isPasswordValid(String password){
+    String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp =  RegExp(pattern);
+
+    if(password.length >= 6 && regExp.hasMatch(password)){
+      return true;
+    }
+    return false;
+  }
+
+  bool isEmailValid(String email) {
+    String pattern =
+        r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if(regex.hasMatch(email)){
+      return true;
+
+    }
+  return false;
+
+  }
+}
+class Register extends StatefulWidget{
+  const Register({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+  return RegisterState();
+  }
+
+}
+class RegisterState extends State<Register> with InputValidationMixin {
+
 
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+
+   bool visibilityTag = false;
+
+   void _changed(bool visibility) {
+     setState(() {
+       visibilityTag = visibility;
+     });
+
+
+   }
+
+   TextEditingController emailController = TextEditingController();
    TextEditingController passwordController = TextEditingController();
+   TextEditingController rePasswordController = TextEditingController();
    TextEditingController firstnameController = TextEditingController();
    TextEditingController lastnameController = TextEditingController();
    TextEditingController aptnameController = TextEditingController();
@@ -51,6 +96,7 @@ class Register extends StatelessWidget{
                   height: 20,
                 ),
                 TextFormField(
+
                   controller: emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -60,7 +106,8 @@ class Register extends StatelessWidget{
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
-                    } else if (!value.contains("@") || value.contains(" ")){
+                    }
+                    else if(isEmailValid(value)==false){
                       return 'Please enter correct email';
                     }
                     return null;
@@ -68,7 +115,19 @@ class Register extends StatelessWidget{
                 ),
                 const SizedBox(height: 15,),
                 TextFormField(
+                  onChanged:(value){
+
+                    if(!isPasswordValid(value)){
+                      _changed(true);
+                    }
+                  },
                   obscureText: true,
+                  onTap:(){
+                    if(!isPasswordValid(passwordController.text)){
+                      _changed(true);
+                    }
+
+                  },
                   controller: passwordController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -79,8 +138,53 @@ class Register extends StatelessWidget{
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
                     }
+                    else if(passwordController.text != rePasswordController.text){
+                      return 'Password does not match';
+                    }
                     return null;
                   },
+                ),
+
+                Visibility(child:Column(
+                  children: [
+                    SizedBox(height: 20,),
+                    FlutterPwValidator(
+
+                      controller: passwordController,
+                      minLength: 6,
+                      uppercaseCharCount: 1,
+                      numericCharCount: 1,
+                      specialCharCount: 1,
+                      width: 400,
+                      height: 120,
+                      onSuccess: (){
+                        _changed(false);
+                      },
+                      onFail:(){} ,
+                    ),
+
+                  ],
+                ), visible: visibilityTag,),
+
+                const SizedBox(height: 15,),
+                TextFormField(
+                  obscureText: true,
+                  controller: rePasswordController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Confirm your password',
+                  ),
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    else if(passwordController.text != rePasswordController.text){
+                      return 'Password does not match';
+                    }
+                    return null;
+                  },
+
                 ),
                 const SizedBox(height: 15,),
                 TextFormField(
@@ -126,6 +230,7 @@ class Register extends StatelessWidget{
                     }
                     return null;
                   },
+
                 ),
                 const SizedBox(height: 15,),
                 TextFormField(
