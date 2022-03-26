@@ -17,7 +17,7 @@ class ForgotPassword extends StatelessWidget{
 
 class MyCustomForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
    MyCustomForm({Key? key}) : super(key: key);
 
   @override
@@ -32,14 +32,14 @@ class MyCustomForm extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                 "Forgot Password",
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
@@ -49,7 +49,7 @@ class MyCustomForm extends StatelessWidget {
                     color: Colors.grey[700],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
@@ -79,14 +79,14 @@ class MyCustomForm extends StatelessWidget {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
                         ScaffoldMessenger.of(context).showSnackBar(
-                           SnackBar(content: Text('E-posta adresinize mail iletildi'+emailController.text)),
+                           SnackBar(content: Text('E-posta adresinize mail iletildi '+emailController.text)),
                         );
                       }
                     },
                     color: Colors.blue,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40)),
-                    child: Text(
+                    child: const Text(
                       "Send",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,

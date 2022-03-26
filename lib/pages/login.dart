@@ -2,7 +2,7 @@ import 'package:apt/pages/forgotPassword.dart';
 import 'package:apt/pages/register.dart';
 import 'package:flutter/material.dart';
 import 'package:apt/pages/homepage.dart';
-
+import 'package:apt/Services/loginService.dart';
 class LoginDemo extends StatefulWidget {
   const LoginDemo({Key? key}) : super(key: key);
 
@@ -11,6 +11,46 @@ class LoginDemo extends StatefulWidget {
 }
 
 class _LoginDemoState extends State<LoginDemo> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  Widget ekButonlar(){
+    return( Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                  const ForgotPassword()),
+            );
+          },
+          child: const Text(
+            'Forgot Password',
+            style: TextStyle(color: Colors.blue, fontSize: 15),
+          ),
+        ),
+        const Text("|",style: TextStyle(color: Colors.blue),),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const Register()),
+            );
+          },
+          child: const Text(
+            'Create Account',
+            style: TextStyle(color: Colors.blue, fontSize: 15),
+          ),
+        ),
+      ],
+    ) );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +59,7 @@ class _LoginDemoState extends State<LoginDemo> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[
+          children:[
             Padding(
               padding: const EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 40),
               child: Center(
@@ -28,21 +68,23 @@ class _LoginDemoState extends State<LoginDemo> {
                 ),
               ),
             ), // fotograf(padding eklenmis)
-            const Padding(
+             Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                controller: emailController ,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Email',
                     hintText: 'Enter valid email id as abc@gmail.com'),
               ),
             ), //email inputu
-            const Padding(
+             Padding(
               padding:
               EdgeInsets.only(left: 20.0, right: 20.0, top: 15, bottom: 15),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                controller: passwordController ,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -57,6 +99,8 @@ class _LoginDemoState extends State<LoginDemo> {
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
+                  var yonetici =login(emailController.text, passwordController.text);
+                  print(yonetici.yoneticiAd+yonetici.yoneticiSoyAd);
                   Navigator.pushReplacement<void, void>(
                     context,
                     MaterialPageRoute<void>(
@@ -71,40 +115,7 @@ class _LoginDemoState extends State<LoginDemo> {
                 ),
               ),
             ), //login butonu
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                          const ForgotPassword()),
-                    );
-                  },
-                  child: const Text(
-                    'Forgot Password',
-                    style: TextStyle(color: Colors.blue, fontSize: 15),
-                  ),
-                ),
-                const Text("|",style: TextStyle(color: Colors.blue),),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                           Register()),
-                    );
-                  },
-                  child: const Text(
-                    'Create Account',
-                    style: TextStyle(color: Colors.blue, fontSize: 15),
-                  ),
-                ),
-              ],
-            ), //sifremi unuttum butonu
+            ekButonlar(),//sifremi unuttum butonu
           ],
         ),
       ),

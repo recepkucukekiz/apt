@@ -1,12 +1,10 @@
 import 'package:apt/pages/detay.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-/*import 'package:fluttertoast/fluttertoast.dart';*/
 import 'package:apt/pages/daireEkle.dart';
 
 class DairelerPage extends StatelessWidget {
   const DairelerPage({Key? key}) : super(key: key);
-
   static int selectedAptId = 0;
 
   Row bottomSheetTop(){
@@ -132,15 +130,6 @@ class DairelerPage extends StatelessWidget {
                 content: Text('Daire Silindi')
             )
         );
-        /*Fluttertoast.showToast(
-            msg: "Daire silindi.",
-            toastLength: Toast.LENGTH_LONG ,
-            gravity: ToastGravity.BOTTOM ,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );*/
       },
     );
     // set up the AlertDialog
