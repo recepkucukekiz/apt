@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 
+import '../Services/registerService.dart';
 import 'login.dart';
 
 mixin InputValidationMixin {
@@ -45,11 +46,12 @@ class RegisterState extends State<Register> with InputValidationMixin {
     });
   }
 
-  Widget inputKutusu(TextEditingController controller, String hint,TextInputType type){
-    return(  TextFormField(
+  Widget inputKutusu(
+      TextEditingController controller, String hint, TextInputType type) {
+    return (TextFormField(
       keyboardType: type,
       controller: controller,
-      decoration:  InputDecoration(
+      decoration: InputDecoration(
         border: const OutlineInputBorder(),
         hintText: hint,
       ),
@@ -60,8 +62,7 @@ class RegisterState extends State<Register> with InputValidationMixin {
         }
         return null;
       },
-    )
-    );
+    ));
   }
 
   TextEditingController emailController = TextEditingController();
@@ -200,19 +201,22 @@ class RegisterState extends State<Register> with InputValidationMixin {
                 const SizedBox(
                   height: 15,
                 ),
-                inputKutusu(firstnameController, 'Adınızı giriniz',TextInputType.text),
+                inputKutusu(
+                    firstnameController, 'Adınızı giriniz', TextInputType.text),
                 const SizedBox(
                   height: 15,
                 ),
-                inputKutusu(lastnameController, 'Soy adınızı giriniz',TextInputType.text),
+                inputKutusu(lastnameController, 'Soy adınızı giriniz',
+                    TextInputType.text),
                 const SizedBox(
                   height: 15,
                 ),
-                inputKutusu(aptnameController, 'Apartman adını giriniz',TextInputType.text),
+                inputKutusu(aptnameController, 'Apartman adını giriniz',
+                    TextInputType.text),
                 const SizedBox(
                   height: 15,
                 ),
-            /*    TextFormField(
+                /*    TextFormField(
                   controller: telnoController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -226,9 +230,11 @@ class RegisterState extends State<Register> with InputValidationMixin {
                     return null;
                   },
                 ),*/
-                inputKutusu(telnoController, 'Telefon numaranızı giriniz', TextInputType.phone),
+                inputKutusu(telnoController, 'Telefon numaranızı giriniz',
+                    TextInputType.phone),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   child: Container(
                     padding: const EdgeInsets.only(top: 3, left: 3),
                     decoration: BoxDecoration(
@@ -237,9 +243,59 @@ class RegisterState extends State<Register> with InputValidationMixin {
                     child: MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          // use the information provided
+                          var result = await register(
+                              emailController.text,
+                              passwordController.text,
+                              firstnameController.text,
+                              lastnameController.text,
+                              aptnameController.text,
+                              telnoController.text);
+
+                          if (result == 'Başarılı') {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Kayıt"),
+                                  content: Text(result),
+                                  actions: <Widget>[
+                                    ElevatedButton(
+                                      child: Text("OK"),
+                                      onPressed: () {
+                                        Navigator.pushReplacement<void, void>(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>
+                                                const LoginDemo(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Kayıt"),
+                                  content: Text(result),
+                                  actions: <Widget>[
+                                    ElevatedButton(
+                                      child: Text("OK"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         }
                       },
                       color: Colors.blue,

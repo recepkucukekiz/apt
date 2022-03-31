@@ -10,44 +10,45 @@ class Yonetici {
   final int yoneticiid;
   final String yoneticiAd;
   final String yoneticiSoyAd;
+  final String yoneticiMail;
+  final String yoneticiTel;
+  final int yoneticiAptId;
 
   const Yonetici({
     required this.yoneticiid,
     required this.yoneticiAd,
     required this.yoneticiSoyAd,
+    required this.yoneticiMail,
+    required this.yoneticiTel,
+    required this.yoneticiAptId,
   });
 
   factory Yonetici.fromJson(Map<String, dynamic> json) {
     return Yonetici(
-      yoneticiid: json['yoneticiid'],
-      yoneticiAd: json['yoneticiAd'],
-      yoneticiSoyAd: json['yoneticiSoyAd'],
+      yoneticiid: json['id'],
+      yoneticiAd: json['ad'],
+      yoneticiSoyAd: json['soyAd'],
+      yoneticiMail: json['mail'],
+      yoneticiTel: json['tel'],
+      yoneticiAptId: json['apartmanId'],
     );
   }
 
 }
-Future<Yonetici> fetchAlbum() async {
-  final response = await http
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Yonetici.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
-
-login(String mail, String password) async {
+login(String mail, String sifre) async {
 
   var response = await http.post(
-    Uri.parse('https://apartmentmanagementapi.azurewebsites.net/login?username='+mail+'&password='+password),
+    Uri.parse('https://apartmanyonetimsistemi.azurewebsites.net/api/auth/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
+
+    body: jsonEncode(<String, String>{
+      'mail': mail,
+      'sifre':sifre,
+    }),
+    
   );
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -57,11 +58,7 @@ login(String mail, String password) async {
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    return (const Yonetici(
-      yoneticiAd: "Hata",
-      yoneticiid: 0,
-      yoneticiSoyAd: "Hata"
-    ));
+    return (jsonDecode(response.body)['hata']);
   }
 }
 

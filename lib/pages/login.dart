@@ -12,6 +12,7 @@ class LoginDemo extends StatefulWidget {
 
 class _LoginDemoState extends State<LoginDemo> {
   bool visible = false;
+  String hataMesaji ='';
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -78,7 +79,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   children: [
                     Icon(Icons.error,color: Colors.red,),
                     SizedBox(width: 10,),
-                    Text("Kullanıcı adı veya şifre hatalı"),
+                    Text(hataMesaji),
                   ],
                 ),
               ),
@@ -118,8 +119,9 @@ class _LoginDemoState extends State<LoginDemo> {
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () async {
-                  Yonetici yonetici = await login(emailController.text, passwordController.text);
-                  if(yonetici.yoneticiAd != "Hata"){
+                  var result = await login(emailController.text, passwordController.text);
+                  print(result);
+                  if(result is Yonetici){
                     Navigator.pushReplacement<void, void>(
                       context,
                       MaterialPageRoute<void>(
@@ -130,6 +132,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   } else {
                     setState(() {
                       visible = true;
+                      hataMesaji = result;
                     });
 
                   }

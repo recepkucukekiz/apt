@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
-
-class DaireEkle extends StatelessWidget {
+class DaireEkle extends StatefulWidget {
   const DaireEkle({Key? key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() {
+    return DaireEkleState();
+  }
+}
 
+class DaireEkleState extends State<DaireEkle>  {
+  bool isChecked = false;
   List<Widget> evSahibiWidgets() {
     List<Widget> widgets = [
       const SizedBox(
         height: 10,
       ),
       const Text(
-        'Ev Sahibi Bilgileri',
+        'Daire Bilgileri',
         maxLines: 20,
         style: TextStyle(
         fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),
@@ -20,31 +26,36 @@ class DaireEkle extends StatelessWidget {
       const TextField(
         decoration: InputDecoration(
           border: OutlineInputBorder(),
-          labelText: 'Ev Sahibi Adı',
+          labelText: 'Ad',
         ),
       ),
       const SizedBox(
         height: 10,
       ),
+      const TextField(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Soy Ad',
+        ),
+      ),
+      const SizedBox(
+        height: 10,
+      ),
+      const TextField(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Mail',
+        ),
+      ),
+      const SizedBox(
+        height: 10,
+      ),
+
       const TextField(
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Telefon No',
         ),
-      ),
-      const SizedBox(
-        height: 30,
-      )
-    ];
-    return widgets;
-  }
-  List<Widget> daireBilgileriWidgets() {
-    List<Widget> widgets = [
-      const Text(
-        'Ev Sahibi Daire Bilgileri',
-        maxLines: 20,
-        style: TextStyle(
-        fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
       const SizedBox(
         height: 10,
@@ -65,8 +76,11 @@ class DaireEkle extends StatelessWidget {
         ),
       ),
       const SizedBox(
-        height: 20,
+        height: 10,
       ),
+
+
+
     ];
     return widgets;
   }
@@ -82,8 +96,20 @@ class DaireEkle extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: evSahibiWidgets() +
-              daireBilgileriWidgets() +
               [
+          CheckboxListTile(
+
+         title: Text("Ev Sahibi Misiniz?"),
+          checkColor: Colors.white,
+          value: isChecked,
+          onChanged: (bool? value) {
+            setState(() {
+              isChecked = value!;
+            });
+          },
+
+
+        ),
                 MaterialButton(
                   minWidth: 150,
                   height: 60,
