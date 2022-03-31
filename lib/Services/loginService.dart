@@ -43,24 +43,26 @@ Future<Yonetici> fetchAlbum() async {
 }
 
 login(String mail, String password) async {
+
   var response = await http.post(
-    Uri.parse('https://localhost:7057/login'),
+    Uri.parse('https://apartmentmanagementapi.azurewebsites.net/login?username='+mail+'&password='+password),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
-    body: jsonEncode(<String, String>{
-      'username': mail,
-      'password': password,
-    }),
   );
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-     Yonetici.fromJson(jsonDecode(response.body));
+     var yonetici = Yonetici.fromJson(jsonDecode(response.body));
+     return yonetici;
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
-    throw Exception('Failed to load album');
+    return (const Yonetici(
+      yoneticiAd: "Hata",
+      yoneticiid: 0,
+      yoneticiSoyAd: "Hata"
+    ));
   }
 }
 

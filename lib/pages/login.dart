@@ -11,6 +11,7 @@ class LoginDemo extends StatefulWidget {
 }
 
 class _LoginDemoState extends State<LoginDemo> {
+  bool visible = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -53,6 +54,7 @@ class _LoginDemoState extends State<LoginDemo> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login Page"),
@@ -67,7 +69,24 @@ class _LoginDemoState extends State<LoginDemo> {
                     child: Image.asset("assets/images/apt.jpg")
                 ),
               ),
-            ), // fotograf(padding eklenmis)
+            ),
+            Visibility(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error,color: Colors.red,),
+                    SizedBox(width: 10,),
+                    Text("Kullanıcı adı veya şifre hatalı"),
+                  ],
+                ),
+              ),
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              visible: visible,
+            ),// fotograf(padding eklenmis)
              Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -98,16 +117,22 @@ class _LoginDemoState extends State<LoginDemo> {
               decoration: BoxDecoration(
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
               child: TextButton(
-                onPressed: () {
-                  var yonetici =login(emailController.text, passwordController.text);
-                  print(yonetici.yoneticiAd+yonetici.yoneticiSoyAd);
-                  Navigator.pushReplacement<void, void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                      const MyHomePage(title: "Anasayfa"),
-                    ),
-                  );
+                onPressed: () async {
+                  Yonetici yonetici = await login(emailController.text, passwordController.text);
+                  if(yonetici.yoneticiAd != "Hata"){
+                    Navigator.pushReplacement<void, void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                        const MyHomePage(title: "Anasayfa"),
+                      ),
+                    );
+                  } else {
+                    setState(() {
+                      visible = true;
+                    });
+
+                  }
                 },
                 child: const Text(
                   'Login',
