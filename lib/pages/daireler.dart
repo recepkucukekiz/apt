@@ -2,7 +2,12 @@ import 'package:apt/pages/detay.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:apt/pages/daireEkle.dart';
-
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+/*
+import 'package:flutter_app_learning/NavDrawer.dart';
+import 'package:flutter_app_learning/contact.dart';*/
 class DairelerPage extends StatelessWidget {
   const DairelerPage({Key? key}) : super(key: key);
   static int selectedAptId = 0;
@@ -188,18 +193,56 @@ class DairelerPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Daireler"),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: GridView.count(
-                crossAxisCount: 4,
-                padding: const EdgeInsets.all(10),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: buildBoxes(context)),
-          ),
-        ],
-      ),
+     body:    SingleChildScrollView(
+        child: Card(
+
+           child: Column(
+             children: [
+
+               ListTile(
+                 leading: Image.asset("assets/images/users.png"),
+                 title: const Text('Taha Turan Akgüngör'),
+                 subtitle: Text(
+                   'Ev Sahibi',
+                   style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                 ),
+               ),
+
+               Align(
+                 alignment: Alignment.topRight,
+                 child:Column(
+                   children:[
+                   MaterialButton(
+
+                     textColor: const Color(0xFF6200EE),
+                     onPressed: () {
+                       // Perform some action
+                     },
+                     child: const Text('Aidat'),
+                   ),
+                   MaterialButton(
+                     textColor: const Color(0xFF6200EE),
+                     onPressed: () {
+                       // Perform some action
+                     },
+                     child: const Text('Ara'),
+                   ),
+                     MaterialButton(
+                       textColor: const Color(0xFF6200EE),
+                       onPressed: () {
+                         // Perform some action
+                       },
+                       child: const Text('Sil'),
+                     ),
+                 ],
+                 ),
+               ),
+
+
+             ],
+           ),
+         ),
+     ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
