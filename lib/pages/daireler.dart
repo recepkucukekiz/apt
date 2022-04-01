@@ -3,16 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:apt/pages/daireEkle.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import '../Services/apartmanService.dart';
 /*
 import 'package:flutter_app_learning/NavDrawer.dart';
 import 'package:flutter_app_learning/contact.dart';*/
-class DairelerPage extends StatelessWidget {
-  const DairelerPage({Key? key}) : super(key: key);
+
+class DairelerPage extends StatefulWidget{
+  const DairelerPage({Key? key, required this.apartmanId}) : super(key: key);
+  final int apartmanId;
+
+  @override
+  State<DairelerPage> createState() => DairelerPageState();
+}
+
+class DairelerPageState extends State<DairelerPage> {
+  Apartman apartman = const Apartman(id: 0, isim: "isim", daireler: []);
+
   static int selectedAptId = 0;
 
-  Row bottomSheetTop(){
+  Row bottomSheetTop(int i){
     return(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,8 +39,8 @@ class DairelerPage extends StatelessWidget {
                     
                     const SizedBox(width: 15,),
                     Row(
-                      children:  const [
-                        Text("Taha Turan",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
+                      children:  [
+                        Text(apartman.daireler[i].kiraci.ad + " " + apartman.daireler[i].kiraci.soyAd,style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
                       ],
                     ),
                   ],
@@ -39,7 +49,8 @@ class DairelerPage extends StatelessWidget {
             ),
             Column(
               children: [
-                Text("Daire " + selectedAptId.toString(),style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold))
+                Text("Kat " + apartman.daireler[i].kat.toString(),style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                Text("Daire " + apartman.daireler[i].no.toString(),style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold))
               ],
             ),
           ],
@@ -47,7 +58,7 @@ class DairelerPage extends StatelessWidget {
     );
   }
 
-  Row bottomSheetBottom(BuildContext context, int i){
+  Row bottomSheetBottom(BuildContext context, int i, int daireId){
     return(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,7 +70,7 @@ class DairelerPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50))),
               onPressed: () {
-                launch("tel://05313862766");
+                launch("tel://"+ apartman.daireler[i].kiraci.telefonNo);
               },
               child: Row(
                 children: const [
@@ -81,7 +92,7 @@ class DairelerPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DetayPage(
-                            id: i,
+                            id: daireId,
                           )),
                     );
                   },
@@ -110,9 +121,9 @@ class DairelerPage extends StatelessWidget {
 
   List<Widget> bottomSheet(BuildContext context, int i){
     return([
-      bottomSheetTop(),
+      bottomSheetTop(i),
       const SizedBox(height: 15,),
-      bottomSheetBottom(context, i),
+      bottomSheetBottom(context, i, apartman.daireler[i].id),
     ]);
 
   }
@@ -187,68 +198,129 @@ class DairelerPage extends StatelessWidget {
     return result;
   }
 
+  List<Widget> buildCards(BuildContext context) {
+    print(apartman.isim);
+    List<Widget> ret = [];
+    for(int i=0; i<apartman.daireler.length; i++){
+      ret.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6,vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    child:Image.asset("assets/images/users.png"),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(apartman.daireler[i].kiraci.ad + " " +apartman.daireler[i].kiraci.soyAd),
+                      Text(apartman.daireler[i].kiraci.kiraciMi.toString())
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Kat: "+ apartman.daireler[i].kat.toString()),
+                      Text("Daire: " + apartman.daireler[i].no.toString())
+                    ],
+                  ),
+                  ElevatedButton(
+                      onPressed: (){
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return Wrap(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                  child: Column(
+                                    children:
+                                    bottomSheet(context, i),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: const Icon(Icons.edit)
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    return ret;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Daireler"),
       ),
-     body:    SingleChildScrollView(
-        child: Card(
+     body: SingleChildScrollView(
+        child: Column(
+          children:
+            /*Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Image.asset("assets/images/users.png"),
+                    title: const Text('Taha Turan Akgüngör'),
+                    subtitle: Text(
+                      'Ev Sahibi',
+                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child:Column(
+                      children:[
+                        MaterialButton(
 
-           child: Column(
-             children: [
-
-               ListTile(
-                 leading: Image.asset("assets/images/users.png"),
-                 title: const Text('Taha Turan Akgüngör'),
-                 subtitle: Text(
-                   'Ev Sahibi',
-                   style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                 ),
-               ),
-
-               Align(
-                 alignment: Alignment.topRight,
-                 child:Column(
-                   children:[
-                   MaterialButton(
-
-                     textColor: const Color(0xFF6200EE),
-                     onPressed: () {
-                       // Perform some action
-                     },
-                     child: const Text('Aidat'),
-                   ),
-                   MaterialButton(
-                     textColor: const Color(0xFF6200EE),
-                     onPressed: () {
-                       // Perform some action
-                     },
-                     child: const Text('Ara'),
-                   ),
-                     MaterialButton(
-                       textColor: const Color(0xFF6200EE),
-                       onPressed: () {
-                         // Perform some action
-                       },
-                       child: const Text('Sil'),
-                     ),
-                 ],
-                 ),
-               ),
-
-
-             ],
-           ),
-         ),
+                          textColor: const Color(0xFF6200EE),
+                          onPressed: () {
+                            // Perform some action
+                          },
+                          child: const Text('Aidat'),
+                        ),
+                        MaterialButton(
+                          textColor: const Color(0xFF6200EE),
+                          onPressed: () {
+                            // Perform some action
+                          },
+                          child: const Text('Ara'),
+                        ),
+                        MaterialButton(
+                          textColor: const Color(0xFF6200EE),
+                          onPressed: () {
+                            // Perform some action
+                          },
+                          child: const Text('Sil'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),*/
+          buildCards(context)
+        ),
      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
             context, MaterialPageRoute(
                 builder: (context) =>
-                const DaireEkle()
+                    DaireEkle(apartmanId: widget.apartmanId,)
             ),
           );
         },

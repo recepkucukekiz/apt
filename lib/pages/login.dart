@@ -126,7 +126,7 @@ class _LoginDemoState extends State<LoginDemo> {
                       context,
                       MaterialPageRoute<void>(
                         builder: (BuildContext context) =>
-                        const MyHomePage(title: "Anasayfa"),
+                         MyHomePage(title: "Anasayfa", apartmanId: result.yoneticiAptId,),
                       ),
                     );
                   } else {

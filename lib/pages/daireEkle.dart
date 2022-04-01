@@ -1,14 +1,26 @@
+import 'package:apt/Services/daireService.dart';
 import 'package:flutter/material.dart';
+
 class DaireEkle extends StatefulWidget {
-  const DaireEkle({Key? key}) : super(key: key);
+  const DaireEkle({Key? key, required this.apartmanId}) : super(key: key);
+  final int apartmanId;
+
   @override
   State<StatefulWidget> createState() {
     return DaireEkleState();
   }
 }
 
-class DaireEkleState extends State<DaireEkle>  {
+class DaireEkleState extends State<DaireEkle> {
   bool isChecked = false;
+
+  TextEditingController adController = TextEditingController();
+  TextEditingController soyadController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
+  TextEditingController telefonnoController = TextEditingController();
+  TextEditingController katController = TextEditingController();
+  TextEditingController dairenoController = TextEditingController();
+  
   List<Widget> evSahibiWidgets() {
     List<Widget> widgets = [
       const SizedBox(
@@ -18,12 +30,13 @@ class DaireEkleState extends State<DaireEkle>  {
         'Daire Bilgileri',
         maxLines: 20,
         style: TextStyle(
-        fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),
+            fontSize: 16.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
       const SizedBox(
         height: 10,
       ),
-      const TextField(
+       TextField(
+        controller: adController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Ad',
@@ -32,7 +45,8 @@ class DaireEkleState extends State<DaireEkle>  {
       const SizedBox(
         height: 10,
       ),
-      const TextField(
+       TextField(
+    controller: soyadController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Soy Ad',
@@ -41,7 +55,8 @@ class DaireEkleState extends State<DaireEkle>  {
       const SizedBox(
         height: 10,
       ),
-      const TextField(
+       TextField(
+         controller: mailController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Mail',
@@ -50,8 +65,8 @@ class DaireEkleState extends State<DaireEkle>  {
       const SizedBox(
         height: 10,
       ),
-
-      const TextField(
+       TextField(
+         controller: telefonnoController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Telefon No',
@@ -60,7 +75,8 @@ class DaireEkleState extends State<DaireEkle>  {
       const SizedBox(
         height: 10,
       ),
-      const TextField(
+       TextField(
+         controller: katController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Kat',
@@ -69,7 +85,8 @@ class DaireEkleState extends State<DaireEkle>  {
       const SizedBox(
         height: 10,
       ),
-      const TextField(
+       TextField(
+         controller: dairenoController,
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Daire No',
@@ -78,16 +95,12 @@ class DaireEkleState extends State<DaireEkle>  {
       const SizedBox(
         height: 10,
       ),
-
-
-
     ];
     return widgets;
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: const Text("Daire Ekleme Sayfası"),
@@ -97,23 +110,40 @@ class DaireEkleState extends State<DaireEkle>  {
         child: Column(
           children: evSahibiWidgets() +
               [
-          CheckboxListTile(
-
-         title: Text("Ev Sahibi Misiniz?"),
-          checkColor: Colors.white,
-          value: isChecked,
-          onChanged: (bool? value) {
-            setState(() {
-              isChecked = value!;
-            });
-          },
-
-
-        ),
+                CheckboxListTile(
+                  title: Text("Ev Sahibi Misiniz?"),
+                  checkColor: Colors.white,
+                  value: isChecked,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked = value!;
+                    });
+                  },
+                ),
                 MaterialButton(
                   minWidth: 150,
                   height: 60,
-                  onPressed: () {},
+                  onPressed: () async{
+                    var result = await postDaire(
+                        int.parse(katController.text),
+                        int.parse(dairenoController.text),
+                        widget.apartmanId,
+                        adController.text,
+                        soyadController.text,
+                        telefonnoController.text,
+                        mailController.text,
+                        isChecked
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(result),
+                          action: SnackBarAction(
+                            label: 'OK',
+                            onPressed: () {},
+                          ),
+                        )
+                    );
+                  },
                   color: Colors.blue,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40)),

@@ -115,7 +115,7 @@ class Apartman {
 
 }
 
-getApartman(int id) async {
+Future<Apartman> getApartman(int id) async {
 
   var response = await http.get(
     Uri.parse('https://apartmanyonetimsistemi.azurewebsites.net/api/Apartman?apartmanId='+id.toString()),
@@ -134,4 +134,6 @@ getApartman(int id) async {
     return (jsonDecode(response.body)['hata']);
   }
 }
+
+
 

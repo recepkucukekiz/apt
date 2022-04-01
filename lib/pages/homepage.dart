@@ -4,8 +4,8 @@ import 'package:apt/pages/test.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
+  const MyHomePage({Key? key, required this.title, required this.apartmanId}) : super(key: key);
+  final int apartmanId;
   final String title;
 
   @override
@@ -52,10 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                        const DairelerPage()),
+                        DairelerPage(apartmanId: widget.apartmanId,)),
                   );
                 },
-                child: const Text("Daireler")),
+                child: Text("Daireler: " + widget.apartmanId.toString())),
             const SizedBox(height: 15),
             const Text("Test sayfası:"),
             const SizedBox(height: 15),
