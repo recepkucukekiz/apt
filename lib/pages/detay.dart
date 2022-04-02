@@ -1,3 +1,4 @@
+import 'package:apt/Services/daireService.dart';
 import 'package:flutter/material.dart';
 
 class Aidat {
@@ -22,6 +23,21 @@ class DetayPageState extends State<DetayPage> {
   DetayPageState(this.id);
   final int id;
 
+  Daire daire = const Daire(id: 0, kat: 0, no: 0, kiraci: Kiraci(id: 0, ad: "ad", soyAd: "soyAd", telefonNo: "telefonNo", mail: "mail", kiraciMi: false));
+
+  Future<void> _fetchData() async {
+    final data = await getDaire(id);
+    setState(() {
+      daire = data;
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _fetchData();
+  }
+
   Row info() {
     return (Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,22 +48,25 @@ class DetayPageState extends State<DetayPage> {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  child: Image.asset('assets/images/users.png'),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(40),
+                    child: Image.asset('assets/images/users.png'),
+                  ),
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Column(
-                  children: const [
+                  children:  [
                     Text(
-                      "Taha Turan",
+                      daire.kiraci.ad + " " + daire.kiraci.soyAd,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "5313862766",
+                      daire.kiraci.telefonNo,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -57,9 +76,9 @@ class DetayPageState extends State<DetayPage> {
         ),
         Column(
           children: [
-            const Text("A Blok ",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            Text("Daire " + id.toString(),
+             Text("Kat " + daire.kat.toString(),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text("Daire " + daire.no.toString(),
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
           ],
@@ -108,8 +127,8 @@ class DetayPageState extends State<DetayPage> {
 
   List<Aidat> getAidats() {
     List<Aidat> aidats = [];
-    for (int i = 0; i < 10; i++) {
-      aidats.add(Aidat("Ocak", false, 200));
+    for (int i = 0; i < 5; i++) {
+      aidats.add(Aidat("Ocak", true, 200));
     }
     return aidats;
   }

@@ -3,6 +3,8 @@ import 'package:apt/pages/register.dart';
 import 'package:flutter/material.dart';
 import 'package:apt/pages/homepage.dart';
 import 'package:apt/Services/loginService.dart';
+
+import 'daireler.dart';
 class LoginDemo extends StatefulWidget {
   const LoginDemo({Key? key}) : super(key: key);
 
@@ -119,6 +121,10 @@ class _LoginDemoState extends State<LoginDemo> {
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () async {
+                  setState(() {
+                    visible = true;
+                    hataMesaji = "Giriş yapılıyor...";
+                  });
                   var result = await login(emailController.text, passwordController.text);
                   print(result);
                   if(result is Yonetici){
@@ -126,7 +132,7 @@ class _LoginDemoState extends State<LoginDemo> {
                       context,
                       MaterialPageRoute<void>(
                         builder: (BuildContext context) =>
-                         MyHomePage(title: "Anasayfa", apartmanId: result.yoneticiAptId,),
+                            DairelerPage(apartmanId: result.yoneticiAptId,),
                       ),
                     );
                   } else {
@@ -134,7 +140,6 @@ class _LoginDemoState extends State<LoginDemo> {
                       visible = true;
                       hataMesaji = result;
                     });
-
                   }
                 },
                 child: const Text(

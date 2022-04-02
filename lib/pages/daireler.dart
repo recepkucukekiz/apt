@@ -1,3 +1,4 @@
+import 'package:apt/Services/daireService.dart';
 import 'package:apt/pages/detay.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -5,6 +6,9 @@ import 'package:apt/pages/daireEkle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import '../Services/apartmanService.dart';
+import '../main.dart';
+import 'login.dart';
+
 /*
 import 'package:flutter_app_learning/NavDrawer.dart';
 import 'package:flutter_app_learning/contact.dart';*/
@@ -18,9 +22,22 @@ class DairelerPage extends StatefulWidget{
 }
 
 class DairelerPageState extends State<DairelerPage> {
-  Apartman apartman = const Apartman(id: 0, isim: "isim", daireler: []);
 
   static int selectedAptId = 0;
+  Apartman apartman = const Apartman(id: 0, isim: "isim", daireler: []);
+
+  Future<void> _fetchData() async {
+    final data = await getApartman(widget.apartmanId);
+    setState(() {
+      apartman = data;
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _fetchData();
+  }
 
   Row bottomSheetTop(int i){
     return(
@@ -31,9 +48,12 @@ class DairelerPageState extends State<DairelerPage> {
               children:  [
                 Row(
                   children: [
-                     CircleAvatar(
-                      child: Image.asset('assets/images/users.png'),
+                    CircleAvatar(
                       radius: 40,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(40),
+                        child: Image.asset('assets/images/users.png'),
+                      ),
                     ),
 
                     
@@ -212,8 +232,11 @@ class DairelerPageState extends State<DairelerPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CircleAvatar(
-                    radius: 30,
-                    child:Image.asset("assets/images/users.png"),
+                    radius: 35,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(35),
+                      child: Image.asset('assets/images/users.png'),
+                    ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -265,6 +288,27 @@ class DairelerPageState extends State<DairelerPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Daireler"),
+        actions: <Widget>[
+          Row(
+            children: [
+              IconButton(
+                padding: const EdgeInsets.only(right: 10),
+                icon: const Icon(Icons.logout_outlined),
+                tooltip: 'Logout',
+                onPressed: () {
+                  saveBoolData(false);
+                  saveIntData(-1);
+                  Navigator.pushReplacement<void, void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const LoginDemo(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
       ),
      body: SingleChildScrollView(
         child: Column(

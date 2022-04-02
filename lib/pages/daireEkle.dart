@@ -1,6 +1,8 @@
 import 'package:apt/Services/daireService.dart';
 import 'package:flutter/material.dart';
 
+import 'daireler.dart';
+
 class DaireEkle extends StatefulWidget {
   const DaireEkle({Key? key, required this.apartmanId}) : super(key: key);
   final int apartmanId;
@@ -101,62 +103,84 @@ class DaireEkleState extends State<DaireEkle> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Daire Ekleme Sayfası"),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: evSahibiWidgets() +
-              [
-                CheckboxListTile(
-                  title: Text("Ev Sahibi Misiniz?"),
-                  checkColor: Colors.white,
-                  value: isChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked = value!;
-                    });
-                  },
-                ),
-                MaterialButton(
-                  minWidth: 150,
-                  height: 60,
-                  onPressed: () async{
-                    var result = await postDaire(
-                        int.parse(katController.text),
-                        int.parse(dairenoController.text),
-                        widget.apartmanId,
-                        adController.text,
-                        soyadController.text,
-                        telefonnoController.text,
-                        mailController.text,
-                        isChecked
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(result),
-                          action: SnackBarAction(
-                            label: 'OK',
-                            onPressed: () {},
-                          ),
-                        )
-                    );
-                  },
-                  color: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40)),
-                  child: const Text(
-                    "Submit",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                      color: Colors.white,
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pushReplacement<void, void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) =>
+                DairelerPage(apartmanId: widget.apartmanId,),
+          ),
+        );
+
+        //we need to return a future
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Daire Ekleme Sayfası"),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: evSahibiWidgets() +
+                [
+                  CheckboxListTile(
+                    title: Text("Ev Sahibi Misiniz?"),
+                    checkColor: Colors.white,
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = value!;
+                      });
+                    },
+                  ),
+                  MaterialButton(
+                    minWidth: 150,
+                    height: 60,
+                    onPressed: () async{
+                      var result = await postDaire(
+                          int.parse(katController.text),
+                          int.parse(dairenoController.text),
+                          widget.apartmanId,
+                          adController.text,
+                          soyadController.text,
+                          telefonnoController.text,
+                          mailController.text,
+                          isChecked
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(result),
+                            action: SnackBarAction(
+                              label: 'OK',
+                              onPressed: () {
+                                Navigator.pushReplacement<void, void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        DairelerPage(apartmanId: widget.apartmanId,),
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                      );
+                    },
+                    color: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40)),
+                    child: const Text(
+                      "Submit",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+          ),
         ),
       ),
     );
