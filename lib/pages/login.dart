@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:apt/pages/homepage.dart';
 import 'package:apt/Services/loginService.dart';
 
+import '../main.dart';
 import 'daireler.dart';
 class LoginDemo extends StatefulWidget {
   const LoginDemo({Key? key}) : super(key: key);
@@ -128,6 +129,8 @@ class _LoginDemoState extends State<LoginDemo> {
                   var result = await login(emailController.text, passwordController.text);
                   print(result);
                   if(result is Yonetici){
+                    saveBoolData(true);
+                    saveIntData(result.yoneticiAptId);
                     Navigator.pushReplacement<void, void>(
                       context,
                       MaterialPageRoute<void>(
