@@ -23,7 +23,7 @@ class DetayPageState extends State<DetayPage> {
   DetayPageState(this.id);
   final int id;
 
-  Daire daire = const Daire(id: 0, kat: 0, no: 0, kiraci: Kiraci(id: 0, ad: "ad", soyAd: "soyAd", telefonNo: "telefonNo", mail: "mail", kiraciMi: false));
+  Daire daire = const Daire(id: 0, kat: 0, no: 0, kiraci: Kiraci(id: 0, ad: "", soyAd: "", telefonNo: "", mail: "", kiraciMi: false));
 
   Future<void> _fetchData() async {
     final data = await getDaire(id);
