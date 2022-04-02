@@ -127,7 +127,6 @@ class _LoginDemoState extends State<LoginDemo> {
                     hataMesaji = "Giriş yapılıyor...";
                   });
                   var result = await login(emailController.text, passwordController.text);
-                  print(result);
                   if(result is Yonetici){
                     saveBoolData(true);
                     saveIntData(result.yoneticiAptId);

@@ -31,42 +31,35 @@ Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var status = prefs.getBool('isLoggedin') ?? false;
-  print(status);
+
   runApp(MaterialApp(
-          theme: ThemeData(
-            brightness: Brightness.light,
-          ),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-          ),
-          themeMode: ThemeMode.system,
-          home: status == true ? const LoginDemo() : DairelerPage(apartmanId: prefs.getInt('aptID') ?? -1,)
-          )
+      theme: ThemeData(
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
+      home: status == true ? DairelerPage(apartmanId: prefs.getInt('aptID') ?? -1,) : const LoginDemo()
+  )
   );
 }
 
 /*class MyApp extends StatefulWidget{
   const MyApp({Key? key}) : super(key: key);
-
   doSome() async{
     if(await isLoggedIn()){
-
     } else {
     runApp(MyApp(aptID: -1,route: 'login',));
     }
   }
-
   @override
   MyAppState createState() => MyAppState(aptID: await getAptID(),route: 'daireler',);
-
 }
-
 class MyAppState extends State<MyApp> {
-
   MyAppState(this.aptID, this.route);
   int aptID;
   String? route;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
